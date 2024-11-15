@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Learnify</h1>
+        <nav>
+            <a href="/courses">Courses</a>
+            <a href="/login">Login</a>
+        </nav>
+    </header>
+    <main>
+        <section id="about">
+            <h2>About Us</h2>
+            <p>Learnify is a platform offering free and premium educational courses for all ages.</p>
+        </section>
+        <section id="courses">
+            <h2>Popular Courses</h2>
+            <ul>
+                <li>Mathematics for Beginners</li>
+                <li>Introduction to Programming</li>
+                <li>Physics Made Easy</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Learnify. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+const express = require('express');
+const app = express();
+
+app.use(express.static('public')); // Serve static files
+app.use(express.json());
+
+// Simulated course data
+const courses = [
+    { id: 1, name: "Mathematics for Beginners", description: "Learn basic math skills." },
+    { id: 2, name: "Introduction to Programming", description: "Start coding today!" },
+    { id: 3, name: "Physics Made Easy", description: "Understand physics concepts." }
+];
+
+// API to fetch courses
+app.get('/api/courses', (req, res) => {
+    res.json(courses);
+});
+
+// Default route
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});<!---
+Siyam233-ct/Siyam233-ct is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+You can click the Preview link to take a look at your changes.
+--->
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/learnify', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("MongoDB connected.");
+    } catch (err) {
+        console.error(err.message);
+        process.exit(1);
+    }
+};
+
+module.exports = connectDB;
+const mongoose = require('mongoose');
+
+const CourseSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    created_at: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('Course', CourseSchema);
